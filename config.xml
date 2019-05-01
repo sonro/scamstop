@@ -3,7 +3,7 @@
 	<name>scamstop</name>
 	<displayName><![CDATA[ScamStop]]></displayName>
 	<version><![CDATA[1.0]]></version>
-	<description><![CDATA[Stops URLs from being added as customer names]]></description>
+	<description><![CDATA[Stops URLs from being added in customer names]]></description>
 	<author><![CDATA[Christopher Morton]]></author>
 	<tab><![CDATA[administration]]></tab>
 	<confirmUninstall><![CDATA[Are you sure you want to uninstall?]]></confirmUninstall>
