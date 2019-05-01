@@ -4,10 +4,10 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-/* require_once _PS_MODULE_DIR_.'prestadmincore/inc/Settings.php'; */
-
 class ScamStop extends Module
 {
+    private $moduleLogFile = _PS_MODULE_DIR_.'scamstop/log';
+
     public function __construct()
     {
         $this->name = 'scamstop';
@@ -62,8 +62,10 @@ class ScamStop extends Module
     public function hookActionBeforeSubmitAccount()
     {
         $lastname = Tools::getValue('customer_lastname');
-        $fistname = Tools::getValue('customer_firstname');
+        $firstname = Tools::getValue('customer_firstname');
         if (Validate::isUrl($lastname) || Valiidate::isUrl($firstname)) {
+            $logData = date(DATE_ISO8601)." REJECTED: $firstname $lastname\n";
+            file_put_contents($this->moduleLogFile, $logData, FILE_APPEND);
             $this->context->controller->errors[] = 
                 Tools::displayError('Invalid account credentials');
         }
