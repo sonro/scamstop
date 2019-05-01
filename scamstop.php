@@ -61,13 +61,25 @@ class ScamStop extends Module
 
     public function hookActionBeforeSubmitAccount()
     {
-        $lastname = Tools::getValue('customer_lastname');
         $firstname = Tools::getValue('customer_firstname');
-        if (Validate::isUrl($lastname) || Valiidate::isUrl($firstname)) {
+        $lastname = Tools::getValue('customer_lastname');
+        if ($this->isUrl($firstname) || $this->isUrl($lastname)) {
             $logData = date(DATE_ISO8601)." REJECTED: $firstname $lastname\n";
             file_put_contents($this->moduleLogFile, $logData, FILE_APPEND);
             $this->context->controller->errors[] = 
                 Tools::displayError('Invalid account credentials');
         }
+    }
+
+    /**
+     * Is Url.
+     *
+     * @return bool
+     */
+    private function isUrl($input)
+    {
+        $regex = 
+            '/^(https?:\/\/)?[$~:;#,%&_=\(\)\[\]\.\? \+\-@\/a-zA-Z0-9]+\..+/';
+        return preg_match($regex, $input);
     }
 }
